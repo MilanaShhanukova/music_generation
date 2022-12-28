@@ -1,0 +1,8 @@
+transformers==4.24.0
+huggingface_hub==0.11
+evaluate==0.4.0
+datasets==2.8.0
+pandas==1.5.2
+
+
+
