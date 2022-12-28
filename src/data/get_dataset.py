@@ -1,10 +1,10 @@
 import re
 import glob
 import pandas as pd
-from typing import List
+from typing import List, Dict, Tuple
 
 
-def get_songs(data_path: str):
+def get_songs(data_path: str) -> Tuple[List, List]:
     with open(data_path, encoding='utf-8') as f:
         author_text = f.read().splitlines()
         songs_starts = [s_idx for s_idx, song in enumerate(author_text) if 'Lyrics' in song]
@@ -22,8 +22,8 @@ def get_songs(data_path: str):
     return songs, songs_names
 
 
-def get_song_name(song_name_line):
-    return re.sub("[\(\[].*?[\)\]]", "", song_name_line).strip()
+def get_song_name(song_name_line: str) -> str:
+    return re.sub(r"[\(\[].*?[\)\]]", "", song_name_line).strip()
 
 
 def create_dataset_gpt(data_paths: List) -> List:
@@ -37,7 +37,7 @@ def create_dataset_gpt(data_paths: List) -> List:
     return data
 
 
-def get_custom_tokenize(sample, tokenizer):
+def get_custom_tokenize(sample: Dict, tokenizer):
     author_name = sample['artist']
     song_name = sample['song_name']
     lyrics = sample['lyrics']
@@ -49,8 +49,8 @@ def get_custom_tokenize(sample, tokenizer):
     return encoded
 
 
-def create_dataframe():
-    data_paths = glob.glob("/kaggle/input/russian-lyrics/new/*.txt")
+def create_dataframe(dir_path: str) -> pd.DataFrame:
+    data_paths = glob.glob(dir_path)
     raw_data = create_dataset_gpt(data_paths)
 
     dataframe = pd.DataFrame({
