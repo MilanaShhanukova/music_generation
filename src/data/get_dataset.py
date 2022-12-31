@@ -50,7 +50,7 @@ def get_custom_tokenize(sample: Dict, tokenizer):
 
 
 def create_dataframe(dir_path: str) -> pd.DataFrame:
-    data_paths = glob.glob(dir_path)
+    data_paths = glob.glob(dir_path +  '/*.txt')
     raw_data = create_dataset_gpt(data_paths)
 
     dataframe = pd.DataFrame({
